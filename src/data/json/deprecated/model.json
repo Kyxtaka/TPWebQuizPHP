@@ -1,0 +1,53 @@
+[
+    {
+        "uuid": "8030a37e-947b-11ee-b9d1-0242ac120002",
+        "type": "radio",
+        "label": "Le label de la question 1.",
+        "choices": [
+            "Answer 1",
+            "Answer 2",
+            "Answer 3"
+        ],
+        "correct": "Answer 2"
+    },
+    {
+        "uuid": "8d7f7078-947b-11ee-b9d1-0242ac120002",
+        "type": "radio",
+        "label": "Le label de la question 2.",
+        "choices": [
+            "Answer 1",
+            "Answer 2",
+            "Answer 3"
+        ],
+        "correct": "Answer 3"
+    },
+    {
+        "uuid": "8d7ef048-947b-11ee-b9d1-0242ac120002",
+        "type": "checkbox",
+        "label": "Le label de la question 3.",
+        "choices": [
+            "Answer 1",
+            "Answer 2",
+            "Answer 3"
+        ],
+        "correct": "Answer 3"
+    },
+    {
+        "uuid": "8adef048-947b-11ee-b9d1-0242ac120002",
+        "type": "text",
+        "label": "Le label de la question 4.",
+        "correct": "Test"
+    },
+    {
+        "uuid": "5adef48-947b-11ee-b9d1-0242ac120002",
+        "type": "text",
+        "label": "Combien de pays existe-t-il ?",
+        "correct": "197"
+    }, 
+    {
+        "uuid": "5aeff48-947b-11ee-b9d1-0242ac120002",
+        "type": "text",
+        "label": "Combien de pattes possède un chat ?",
+        "correct": 4
+    }
+]               
