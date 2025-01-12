@@ -1,0 +1,96 @@
+[
+    {
+        "uuid" : "",
+        "name" : "quizz1",
+        "qestions": [
+            {
+                "uuid": "8030a37e-947b-11ee-b9d1-0242ac120002",
+                "label": "Le label de la question 1.",
+                "type": "radio",
+                "choices": [
+                    "Answer 1",
+                    "Answer 2",
+                    "Answer 3"
+                ],
+                "correct": "Answer 2"
+            },
+            {
+                "uuid": "8d7f7078-947b-11ee-b9d1-0242ac120002",
+                "label": "Le label de la question 2.",
+                "type": "radio",
+                "choices": [
+                    "Answer 1",
+                    "Answer 2",
+                    "Answer 3"
+                ],
+                "correct": "Answer 3"
+            },
+            {
+                "uuid": "8d7ef048-947b-11ee-b9d1-0242ac120002",
+                "label": "Le label de la question 3.",
+                "type": "checkbox",
+                "choices": [
+                    "Answer 1",
+                    "Answer 2",
+                    "Answer 3"
+                ],
+                "correct": "Answer 3"
+            }
+        ]
+    },
+    {
+        "uuid" : "",
+        "name" : "quizz2",
+        "qestions": [
+            {
+                "uuid": "8adef048-947b-11ee-b9d1-0242ac120002",
+                "label": "Le label de la question 4.",
+                "type": "text",
+                "choices": [],
+                "correct": "Test"
+            },
+            {
+                "uuid": "5adef48-947b-11ee-b9d1-0242ac120002",
+                "label": "Combien de pays existe-t-il ?",
+                "type": "text",
+                "choices": [],
+                "correct": "197"
+            },
+            {
+                "uuid": "5aeff48-947b-11ee-b9d1-0242ac120002",
+                "label": "Combien de pattes poss\u00e8de un chat ?",
+                "type": "text",
+                "choices": [],
+                "correct": "4"
+            }
+        ]
+    },
+    {
+        "uuid" : "",
+        "name" : "quizz3",
+        "qestions": [
+            {
+                "uuid": "8030a37e-947b-11eef9d1-0242ac120002",
+                "label": "Question sup1",
+                "type": "radio",
+                "choices": [
+                    "Answer 1",
+                    "Answer 2",
+                    "Answer 3"
+                ],
+                "correct": "Answer 2"
+            },
+            {
+                "uuid": "8d7f7078-945d-11ee-b9d1-0242ac120002",
+                "label": "Question Sup2",
+                "type": "radio",
+                "choices": [
+                    "Answer 1",
+                    "Answer 2",
+                    "Answer 3"
+                ],
+                "correct": "Answer 3"
+            }
+        ]
+    }
+]
