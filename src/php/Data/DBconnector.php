@@ -43,6 +43,49 @@ class DBConnector {
         return $stmt->fetch()['nomRole'];
     }
 
+    public function getQCM(){
+        $stmt = $this->pdo->query('SELECT * FROM QCM');
+        foreach ($stmt as $row) {
+            $qcm = new Quizz($row['uuid'], $row['nomQCM'], $row['nombreQuestion']);
+            $stmt2 = $this->pdo->prepare('SELECT * FROM QUESTION WHERE qcmId = :qcmId');
+            $stmt2->execute(['qcmId' => $row['id']]);
+            foreach ($stmt2 as $row2) {
+                $stmt3 = $this->pdo->prepare('SELECT * FROM ANSWER WHERE questionID = :questionID');
+                $stmt3->execute(['questionID' => $row2['id']]);
+                $choices = [];
+                foreach ($stmt3 as $row3) {
+                    $choices[] = $row3['answer'];
+                    if ($row3['correct'] == 1) {
+                        $correct = $row3['answer'];
+                    }
+                }
+                switch ($row2['type']) {
+                    case 'radio':
+                        $question = new QuestionRadioBox($row2['label'],$row2['radio'],$correct,$row2['uuid']);
+                        foreach($choices as $choice){
+                            $question->addChoice($choice);
+                        }
+                        $qcm->addQuestion($question);
+                        break;
+                    case 'checkbox':
+                        $question = new QuestionCheckBox($row2['label'],$row2['checkbox'],$correct,$row2['uuid']);
+                        foreach($choices as $choice){
+                            $question->addChoice($choice);
+                        }
+                        $qcm->addQuestion($question);
+                        break;
+                    case 'text':
+                        $question = new QuestionTextField($row2['label'],$row2['text'],$correct,$row2['uuid']);
+                        $qcm->addQuestion($question);
+                        break;
+                }
+                
+            }
+        }
+        JSONprovider::saveQuizzToSession($qcm);
+
+    }
+
     //INSERT
     // public function insertProduct(Product $product) {
     //     $stmt = $this->pdo->prepare('INSERT INTO PRODUCT (name, quantity, price) VALUES (:name, :quantity, :price)');
