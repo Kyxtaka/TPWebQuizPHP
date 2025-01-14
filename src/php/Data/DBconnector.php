@@ -1,6 +1,17 @@
 <?php
 // Connection en utlisant la connexion PDO avec le moteur en prefix
 
+namespace Data;
+use Components\Question\Question;
+use Components\Question\QuestionCheckBox;
+use Components\Question\QuestionRadioBox;
+use Components\Question\QuestionTextField;
+use Components\Question\Quizz;
+use Components\Tools\User\UserTools;
+use Tools\User\UserTools as UserUserTools;
+
+use \PDO;
+
 class DBConnector {
     private $pdo;
     public function __construct() {
@@ -18,6 +29,19 @@ class DBConnector {
     // public function getProducts(): PDOStatement {
     //     return $this->pdo->query('SELECT * FROM PRODUCTS');
     // }
+    public function getUSER($username, $mdp){
+        $stmt = $this->pdo->prepare('SELECT * FROM USER WHERE username = :username AND motDePasse = :motDePasse');
+        $stmt->execute(['username' => $username, 'motDePasse' => $mdp]);
+        if ($stmt->fetch()) {
+            UserUserTools::login($username, $mdp);
+        }
+    }
+
+    public function getROLE($username,$mdp){
+        $stmt = $this->pdo->prepare('SELECT nomRole FROM USER NATURAL JOIN USER_ROLES NATURAL JOIN ROLES WHERE username = :username AND motDePasse = :motDePasse');
+        $stmt->execute(['username' => $username, 'motDePasse' => $mdp]);
+        return $stmt->fetch()['nomRole'];
+    }
 
     //INSERT
     // public function insertProduct(Product $product) {
@@ -25,24 +49,24 @@ class DBConnector {
     //     $stmt->execute(['name' => $product->getName(), 'quantity' => $product->getQuantity(), 'price' => $product->getPrice()]);
     // }
 
-    public function insertUSER($username, $password){
-        $sql = 'SELECT max(id,0) as id FROM USER';
+    public function insertUSER($username, $motDePasse){
+        $sql = 'SELECT max(userId,0) as id FROM USER';
         $stmt = $this->pdo->query($sql);
         $id = $stmt->fetch()['id'] + 1;
-        $stmt = $this->pdo->prepare('INSERT INTO USER (id, username, password) VALUES (:id, :username, :password)');
-        $stmt->execute(['id' => $id, 'username' => $username, 'password' => $password]);
+        $stmt = $this->pdo->prepare('INSERT INTO USER (userId, username, motDePasse) VALUES (:id, :username, :motDePasse)');
+        $stmt->execute(['id' => $id, 'username' => $username, 'motDePasse' => $motDePasse]);
     }
 
     public function insertROLES($nomRole){
-        $sql = 'SELECT max(id,0) as id FROM ROLES';
+        $sql = 'SELECT max(roleId,0) as id FROM ROLES';
         $stmt = $this->pdo->query($sql);
         $id = $stmt->fetch()['id'] + 1;
-        $stmt = $this->pdo->prepare('INSERT INTO ROLES (id, nomRole) VALUES (:id, :nomRole)');
+        $stmt = $this->pdo->prepare('INSERT INTO ROLES (roleId, nomRole) VALUES (:id, :nomRole)');
         $stmt->execute(['id' => $id, 'nomRole' => $nomRole]);
     }
 
     public function insertUSER_ROLES($id_user, $idRole){
-        $stmt = $this->pdo->prepare('INSERT INTO USER_ROLES (id, idRole) VALUES (:id, :idRole)');
+        $stmt = $this->pdo->prepare('INSERT INTO USER_ROLES (userId, roleId) VALUES (:id, :idRole)');
         $stmt->execute(['id' => $id_user, 'idRole' => $idRole]);
     }
 
@@ -86,21 +110,21 @@ class DBConnector {
     }
 
     public function insertTENTATIVE ($id_user, $qcmID, $score){
-        $sql = 'SELECT max(id,0) as id FROM TENTATIVE';
+        $sql = 'SELECT max(qcmId,0) as id FROM TENTATIVE';
         $stmt = $this->pdo->query($sql);
         $id = $stmt->fetch()['id'] + 1;
-        $stmt = $this->pdo->prepare('INSERT INTO TENTATIVE (id, id_user, qcmID, score) VALUES (:id, :id_user, :qcmID, :score)');
+        $stmt = $this->pdo->prepare('INSERT INTO TENTATIVE (qcmId, userId, qcmID, score) VALUES (:id, :id_user, :qcmID, :score)');
         $stmt->execute(['id' => $id, 'id_user' => $id_user, 'qcmID' => $qcmID, 'score' => $score]);
     }
 
     //UPDATE
-    public function updateUSER($id, $username, $password){
-        $stmt = $this->pdo->prepare('UPDATE USER SET username = :username, password = :password WHERE id = :id');
-        $stmt->execute(['id' => $id, 'username' => $username, 'password' => $password]);
+    public function updateUSER($id, $username, $motDePasse){
+        $stmt = $this->pdo->prepare('UPDATE USER SET username = :username, motDePasse = :motDePasse WHERE id = :id');
+        $stmt->execute(['id' => $id, 'username' => $username, 'motDePasse' => $motDePasse]);
     }
 
     public function updateROLES($id, $nomRole){
-        $stmt = $this->pdo->prepare('UPDATE ROLES SET nomRole = :nomRole WHERE id = :id');
+        $stmt = $this->pdo->prepare('UPDATE USER_ROLES SET roleId = :nomRole WHERE userId = :id');
         $stmt->execute(['id' => $id, 'nomRole' => $nomRole]);
     }
 
