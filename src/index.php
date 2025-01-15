@@ -172,7 +172,7 @@ if (!empty($_FILES['file']) && $_FILE['file']['error'] == UPLOAD_ERR_OK) {
 </header>
 <main>
     <h1>Bienvenu dans le Quizzer</h1>
-    <p>Tester vos connassance</p>
+    <p>Tester vos connaissance</p>
     <?php
         if (UserTools::isLogged()) {  
             echo '=====================================================================================================<br>'; 
