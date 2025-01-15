@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/pages/login.css">
     <link rel="stylesheet" href="css/index.css">
     <script src="js/W3IncludeHTML.js"></script>
     <title>Register</title>
@@ -34,6 +35,7 @@
             <input type="password" name="pwd" id="pwd">
             <label for="confirm-pwd">Confirm Password</label>
             <input type="password" name="confirm-pwd" id="confirm-pwd">
+            <input id="submit" type="submit" value="Register">
         </form>
     </main> 
 </body>
