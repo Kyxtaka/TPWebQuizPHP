@@ -26,6 +26,9 @@ JSONprovider::clearSession();
 JSONprovider::loadQuestions(JSONprovider::loadJSON('data/json/global/questions.json'), true);
 JSONprovider::loadQuizzs(JSONprovider::loadJSON('data/json/global/quizz.json'), true);
 
+
+DBConnector::getQCM();
+
 // fonction pour charger le formulaire du quizz
 function loadQuizz() {
     $html = '<div class="quizz">';
@@ -92,10 +95,10 @@ if (!empty($_FILES['file']) && $_FILE['file']['error'] == UPLOAD_ERR_OK) {
             } else if ($_POST['action'] == 'quizzs') {
                 echo 'action quizzs';
                 $data = JSONprovider::loadJSON($dest_path);
-                //$quizzs = JSONprovider::loadQuizzs($data, true);
-                foreach ($data as $qcm){
-                    insertQCM($qcm['uuid'], $qcm['label'], count($qcm['questions']), $qcm['questions']);
-                }
+                $quizzs = JSONprovider::loadQuizzs($data, true);
+                // foreach ($data as $qcm){
+                //     insertQCM($qcm['uuid'], $qcm['label'], count($qcm['questions']), $qcm['questions']);
+                // }
                 ///JSONprovider::saveQuizzJSON();
                 JSONprovider::saveJSON();
                 echo 'Quizz imported';
