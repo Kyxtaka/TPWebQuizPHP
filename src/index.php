@@ -1,6 +1,7 @@
 <?php
 
 require_once 'php/autoloader.php';
+require_once "./php/Data/DBconnector.php";
 Autoloader::register();
 
 use Components\Form\Checkbox;
@@ -14,6 +15,7 @@ use Components\Question\Question;
 use Data\JSONprovider;
 use Components\Question\Quizz;
 use Components\Form\QuestionForm;
+use Data\DBConnector;
 
 session_start();
 echo '<pre>';
@@ -90,8 +92,11 @@ if (!empty($_FILES['file']) && $_FILE['file']['error'] == UPLOAD_ERR_OK) {
             } else if ($_POST['action'] == 'quizzs') {
                 echo 'action quizzs';
                 $data = JSONprovider::loadJSON($dest_path);
-                $quizzs = JSONprovider::loadQuizzs($data, true);
-                // JSONprovider::saveQuizzJSON();
+                //$quizzs = JSONprovider::loadQuizzs($data, true);
+                foreach ($data as $qcm){
+                    insertQCM($qcm['uuid'], $qcm['label'], count($qcm['questions']), $qcm['questions']);
+                }
+                ///JSONprovider::saveQuizzJSON();
                 JSONprovider::saveJSON();
                 echo 'Quizz imported';
             }
