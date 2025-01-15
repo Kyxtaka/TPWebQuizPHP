@@ -1,7 +1,7 @@
 <?php
 
 require_once 'php/autoloader.php';
-require_once "./php/Data/DBconnector.php";
+// require_once "./php/Data/DBconnector.php";
 Autoloader::register();
 
 use Components\Form\Checkbox;
@@ -18,9 +18,9 @@ use Components\Form\QuestionForm;
 use Data\DBConnector;
 
 session_start();
-echo '<pre>';
-var_dump($_SESSION['quizzs']);
-echo '</pre>';
+// echo '<pre>';
+// var_dump($_SESSION['quizzs']);
+// echo '</pre>';
 // lecture du fichier ou son entreposer toutes les questions et quizzs
 JSONprovider::clearSession();
 JSONprovider::loadQuestions(JSONprovider::loadJSON('data/json/global/questions.json'), true);
