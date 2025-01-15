@@ -72,7 +72,7 @@ class DBconnector {
         foreach ($stmt as $row) {
             $qcm = new Quizz($row['uuid'], $row['nomQCM'], $row['nombreQuestion']);
             $stmt2 = self::getInstance()->prepare('SELECT * FROM QUESTION WHERE qcmId = :qcmId');
-            $stmt2->execute(['qcmId' => $row['id']]);
+            $stmt2->execute(['qcmId' => $row['uuid']]);
             foreach ($stmt2 as $row2) {
                 $stmt3 = self::getInstance()->prepare('SELECT * FROM ANSWER WHERE questionID = :questionID');
                 $stmt3->execute(['questionID' => $row2['id']]);
@@ -171,14 +171,10 @@ class DBconnector {
     }
     
     public static function insertQCM($uuid, $nomQCM, $nombreQuestion,$listeQuestion){
-        
-        $sql = 'SELECT max(id,0) as id FROM QCM';
-        $stmt = self::getInstance()->query($sql);
-        $id = $stmt->fetch()['id'] + 1;
-        $stmt = self::getInstance()->prepare('INSERT INTO QCM (id, uuid, nomQCM, nombreQuestion) VALUES (:id, :uuid, :nomQCM, :nombreQuestion)');
-        $stmt->execute(['id' => $id, 'uuid' => $uuid, 'nomQCM' => $nomQCM, 'nombreQuestion' => $nombreQuestion]);
+        $stmt = self::getInstance()->prepare('INSERT INTO QCM ( uuid, nomQCM, nombreQuestion) VALUES (:uuid, :nomQCM, :nombreQuestion)');
+        $stmt->execute(['uuid' => $uuid, 'nomQCM' => $nomQCM, 'nombreQuestion' => $nombreQuestion]);
         foreach ($listeQuestion as $question) {
-            DBconnector::insertQUESTION($question['uuid'], $id, $question['label'], $question['type'],$question['choices'], $question['correct']);
+            DBconnector::insertQUESTION($question['uuid'], $uuid, $question['label'], $question['type'],$question['choices'], $question['correct']);
         }
     }
     
