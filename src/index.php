@@ -18,6 +18,7 @@ use Components\Form\QuestionForm;
 use Data\DBConnector;
 
 session_start();
+echo hash('sha256', 'ADMIN');
 // echo '<pre>';
 // var_dump($_SESSION['quizzs']);
 // echo '</pre>';

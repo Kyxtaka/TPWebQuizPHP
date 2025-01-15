@@ -20,7 +20,7 @@ class DBconnector {
 
     private function __construct() {
         try{
-            self::$instance = new PDO("sqlite:./data/db/database.sqlite");
+            self::$instance = new PDO("sqlite:./data/db/database.db");
             // self::getInstance() = new PDO("mysql:host=servinfo-maria;dbname=DBrandriantsoa","randriantsoa","randriantsoa");
             self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
@@ -36,28 +36,35 @@ class DBconnector {
         return self::$instance;
     }
 
-    // public static function query($query) {
-    //     return self::getInstance()->query($query);
-    // }
-
-    // Fonction pour obtenir les produits
-    //SELECT
-    // public static function getProducts(): PDOStatement {
-    //     return self::getInstance()->query('SELECT * FROM PRODUCTS');
-    // }
-    public static function getUSER($username, $mdp){
-        $stmt = self::getInstance()->prepare('SELECT * FROM USER WHERE username = :username AND motDePasse = :motDePasse');
-        $stmt->execute(['username' => $username, 'motDePasse' => $mdp]);
-        if ($stmt->fetch()) {
-            UserUserTools::login($username, $mdp);
-        }
+    public static function checkDB($username, $hashedPassword){
+        $stmt = self::getInstance()->prepare('SELECT * FROM USER NATURAL JOIN USER_ROLES NATURAL JOIN ROLES WHERE username = :username AND motDePasse = :motDePasse ');
+        $stmt->execute(['username' => $username, 'motDePasse' => $hashedPassword]);
+        return $stmt->fetch();
     }
 
-    public static function getROLE($username,$mdp){
+    public static function getUSER($username){
+        $stmt = self::getInstance()->prepare('SELECT * FROM NATURAL JOIN USER_ROLES NATURAL JOIN ROLES WHERE username = :username');
+        $stmt->execute(['username' => $username]);
+        return $stmt->fetch();
+    }
+
+    public static function registerUser($username, $hashedPassword, $role){
+        try {
+            $stmt = self::getInstance()->prepare('INSERT INTO USER (username, motDePasse) VALUES (:username, :motDePasse)');
+            $stmt->execute(['username' => $username, 'motDePasse' => $hashedPassword]);
+            $stmt = self::getInstance()->prepare('SELECT * FROM USER WHERE username = :username');
+            $stmt->execute(['username' => $username]);
+            $id = $stmt->fetch()['userId'];
+            $stmt = self::getInstance()->prepare('SELECT * FROM ROLES WHERE nomRole = :nomRole');
+            $stmt->execute(['nomRole' => $role]);
+            $idRole = $stmt->fetch()['roleId'];
+            $stmt = self::getInstance()->prepare('INSERT INTO USER_ROLES (userId, roleId) VALUES (:userId, :roleId)');
+            $stmt->execute(['userId' => $id, 'roleId' => $idRole]);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
         
-        $stmt = self::getInstance()->prepare('SELECT nomRole FROM USER NATURAL JOIN USER_ROLES NATURAL JOIN ROLES WHERE username = :username AND motDePasse = :motDePasse');
-        $stmt->execute(['username' => $username, 'motDePasse' => $mdp]);
-        return $stmt->fetch()['nomRole'];
     }
 
     public static function getAllRoles() {

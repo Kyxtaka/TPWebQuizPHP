@@ -1,27 +1,32 @@
 <?php
 namespace Tools\User;
+use Data\DBconnector;
 session_start();
 // classe donnant des outils pour la gestion des utilisateurs
 //connexion / deconnexion / verification de connexion
 class UserTools {
 
-    // private static function checkDB($username, $password) {
-    //     $db = new PDO('mysql:host=localhost;dbname=php', 'root', '');
-    //     $query = $db->prepare('SELECT * FROM users WHERE username = :username AND password = :password');
-    //     $query->execute(array('username' => $username, 'password' => $password));
-    //     $result = $query->fetch();
-    //     return $result;
-    // }
+    private static function checkDB($username, $password) {
+        $result = DBconnector::checkDB($username, $password);
+        return $result;
+    }
 
     public static function login($username, $password) {
-        if ($username === 'admin' && $password === 'admin') {
-            $_SESSION['user'] = array('username' => $username, 'token' => self::generateToken(), 'role' => 'admin');
-            return true;
-        } else if ($username === 'user' && $password === 'user') {
-            $_SESSION['user'] = array('username' => $username, 'token' => self::generateToken(), 'role' => 'user');
+        $hash = hash('sha256', $password);
+        if ($result = self::checkDB($username, $hash)) {
+            $_SESSION['user'] = array('username' => $username, 'token' => self::generateToken(), 'role' => $result['nomRole']);
             return true;
         }
         return false;
+    }
+
+    public static function register($username, $password, $confirmationPassword, $role = "USER") {
+        if ($password !== $confirmationPassword) {
+            return false;
+        }
+        $hash = hash('sha256', $password);
+        $case = DBconnector::registerUser($username, $hash, $role);
+        return $case;
     }
  
     public static function generateToken() {
