@@ -30,6 +30,91 @@ class DBconnector {
     }
 
     /**
+     * Retourne l'instance unique de la connexion à la base de données.
+     * @return PDO L'instance de la connexion à la base de données.
+     */
+    public static function getInstance() {
+        if (self::$instance == null) {
+            new DBconnector();
+        }
+        return self::$instance;
+    }
+
+    /**
+     * Vérifie les informations d'identification de l'utilisateur dans la base de données.
+     * @param string $username Le nom d'utilisateur.
+     * @param string $hashedPassword Le mot de passe haché.
+     * @return mixed Les informations de l'utilisateur si elles sont trouvées, sinon false.
+     */
+    public static function checkDB($username, $hashedPassword) {
+        $stmt = self::getInstance()->prepare('SELECT * FROM USERS NATURAL JOIN USER_ROLES NATURAL JOIN ROLES WHERE username = :username AND motDePasse = :motDePasse ');
+        $stmt->execute(['username' => $username, 'motDePasse' => $hashedPassword]);
+        return $stmt->fetch();
+    }
+
+    /**
+     * Récupère les informations de l'utilisateur à partir de la base de données.
+     * @param string $username Le nom d'utilisateur.
+     * @return mixed Les informations de l'utilisateur si elles sont trouvées, sinon false.
+     */
+    public static function getUSER($username) {
+        $stmt = self::getInstance()->prepare('SELECT * FROM USERS NATURAL JOIN USER_ROLES NATURAL JOIN ROLES WHERE username = :username');
+        $stmt->execute(['username' => $username]);
+        return $stmt->fetch();
+    }
+
+    /**
+     * Insère un nouvel utilisateur dans la base de données.
+     * @param string $username Le nom d'utilisateur.
+     * @param string $motDePasse Le mot de passe.
+     */
+    public static function insertUSER($username, $motDePasse) {
+        $nextId = 'SELECT count(*) as UID FROM USERS';
+        $stmt = self::getInstance()->query($nextId);
+        $id = $stmt->fetch()['UID'] + 1;
+        $stmt = self::getInstance()->prepare('INSERT INTO USERS (userId, username, motDePasse) VALUES (:userId, :username, :motDePasse)');
+        $stmt->execute(['userId' => $id, 'username' => $username, 'motDePasse' => $motDePasse]);
+        self::insertUSER_ROLES($id, 2);
+    }
+
+    /**
+     * Associe un utilisateur à un rôle dans la base de données.
+     * @param int $id_user L'ID de l'utilisateur.
+     * @param int $idRole L'ID du rôle.
+     */
+    public static function insertUSER_ROLES($id_user, $idRole) {
+        $stmt = self::getInstance()->prepare('INSERT INTO USER_ROLES (userId, roleId) VALUES (:id, :idRole)');
+        $stmt->execute(['id' => $id_user, 'idRole' => $idRole]);
+    }
+
+    /**
+     * Récupère les informations d'un rôle à partir de la base de données.
+     * @param string $nomRole Le nom du rôle.
+     * @return mixed Les informations du rôle si elles sont trouvées, sinon false.
+     */
+    public static function getROLE($nomRole) {
+        $stmt = self::getInstance()->prepare('SELECT * FROM ROLES WHERE nomRole = :nomRole');
+        $stmt->execute(['nomRole' => $nomRole]);
+        return $stmt->fetch();
+    }
+
+    /**
+     * Enregistre un nouvel utilisateur avec un rôle spécifique dans la base de données.
+     * @param string $username Le nom d'utilisateur.
+     * @param string $hashedPassword Le mot de passe haché.
+     * @param int $roleId L'ID du rôle.
+     * @return bool True si l'enregistrement a réussi, sinon false.
+     */
+    public static function registerUser($username, $hashedPassword, $roleId) {
+        try {
+            self::insertUSER($username, $hashedPassword);
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    /**
      * Récupère tous les rôles de la base de données.
      * @return array Un tableau contenant tous les rôles.
      */
