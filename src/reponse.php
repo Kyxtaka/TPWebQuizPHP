@@ -102,6 +102,7 @@ if (!isset($_SESSION['questions'])) {
         } catch (Exception $e) {
             echo $e->getMessage();
         }
+         echo sprintf('<h2>Toutes vos tentatives : </h2>');
         $allTentatives = DBconnector::getTentatives($_GET['quizz'], UserTools::getUserId());
         foreach ($allTentatives as $tentative) {
             echo sprintf('<p>Tentative n°%d : %d / %d</p>', $tentative['numeroTentative'], $tentative['score'], count($_GET)-1);

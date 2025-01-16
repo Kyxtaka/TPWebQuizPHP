@@ -21,9 +21,7 @@ class UserTools {
     }
 
     public static function register($username, $password, $confirmationPassword, $role = "USER") {
-        if ($password !== $confirmationPassword) {
-            return false;
-        }
+        if ($password !== $confirmationPassword) { return false;}
         $hash = hash('sha256', $password);
         $case = DBconnector::registerUser($username, $hash, $role);
         return $case;

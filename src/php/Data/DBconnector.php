@@ -21,7 +21,7 @@ class DBconnector {
     private function __construct() {
         try{
             self::$instance = new PDO("sqlite:./data/db/database.db");
-            // self::getInstance() = new PDO("mysql:host=servinfo-maria;dbname=DBrandriantsoa","randriantsoa","randriantsoa");
+            // self::getInstance() = new PDO("mynextId:host=servinfo-maria;dbname=DBrandriantsoa","randriantsoa","randriantsoa");
             self::$instance->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
         catch (PDOException $e) {
@@ -49,24 +49,24 @@ class DBconnector {
     }
 
     public static function insertUSER($username, $motDePasse){
-        $sql = 'SELECT max(userId,0) as id FROM USER';
-        $stmt = self::getInstance()->query($sql);
-        $id = $stmt->fetch()['id'] + 1;
-        $stmt = self::getInstance()->prepare('INSERT INTO USER (userId, username, motDePasse) VALUES (:id, :username, :motDePasse)');
-        $stmt->execute(['id' => $id, 'username' => $username, 'motDePasse' => $motDePasse]);
+        $nextId = 'SELECT count(*) as UID FROM USERS';
+        $stmt = self::getInstance()->query($nextId);
+        $id = $stmt->fetch()['UID'] + 1;
+        $stmt = self::getInstance()->prepare('INSERT INTO USERS (userId, username, motDePasse) VALUES (:userId, :username, :motDePasse)');
+        $stmt->execute(['userId' => $id, 'username' => $username, 'motDePasse' => $motDePasse]);
     }
     
-    public static function insertROLES($nomRole){
-        $sql = 'SELECT max(roleId,0) as id FROM ROLES';
-        $stmt = self::getInstance()->query($sql);
-        $id = $stmt->fetch()['id'] + 1;
-        $stmt = self::getInstance()->prepare('INSERT INTO ROLES (roleId, nomRole) VALUES (:id, :nomRole)');
-        $stmt->execute(['id' => $id, 'nomRole' => $nomRole]);
-    }
+    // public static function insertROLES($nomRole){
+    //     $nextId = 'SELECT max(roleId,0) as id FROM ROLES';
+    //     $stmt = self::getInstance()->query($nextId);
+    //     $id = $stmt->fetch()['id'] + 1;
+    //     $stmt = self::getInstance()->prepare('INSERT INTO ROLES (roleId, nomRole) VALUES (:id, :nomRole)');
+    //     $stmt->execute(['id' => $id, 'nomRole' => $nomRole]);
+    // }
     
     public static function insertUSER_ROLES($id_user, $idRole){
         $stmt = self::getInstance()->prepare('INSERT INTO USER_ROLES (userId, roleId) VALUES (:id, :idRole)');
-        $stmt->execute(['id' => $id_user, 'idRole' => $idRole]);
+        $stmt->execute(['userId' => $id_user, 'idRole' => $idRole]);
     }
 
     public static function registerUser($username, $hashedPassword, $role){
@@ -175,16 +175,16 @@ class DBconnector {
     // }
     
     // public static function insertANSWER($questionID, $answer, $correct){
-    //     $sql = 'SELECT max(id,0) as id FROM ANSWER';
-    //     $stmt = self::getInstance()->query($sql);
+    //     $nextId = 'SELECT max(id,0) as id FROM ANSWER';
+    //     $stmt = self::getInstance()->query($nextId);
     //     $id = $stmt->fetch()['id'] + 1;
     //     $stmt = self::getInstance()->prepare('INSERT INTO ANSWER (id, questionID, answer, correct) VALUES (:id, :questionID, :answer, :correct)');
     //     $stmt->execute(['id' => $id, 'questionID' => $questionID, 'answer' => $answer, 'correct' => $correct]);
     // }
     
     // public static function insertQUESTION($qcmUID, $uuid, $label, $type,$choix ,$correct){
-    //     $sql = 'SELECT max(id,0) as id FROM QUESTION';
-    //     $stmt = self::getInstance()->query($sql);
+    //     $nextId = 'SELECT max(id,0) as id FROM QUESTION';
+    //     $stmt = self::getInstance()->query($nextId);
     //     $id = $stmt->fetch()['id'] + 1;
     //     $stmt = self::getInstance()->prepare('INSERT INTO QUESTION (id, qcmUID, uuid, label, type) VALUES (:id, :qcmUID, :uuid, :label, :type)');
     //     $stmt->execute(['id' => $id, 'qcmUID' => $qcmUID, 'uuid' => $uuid ,'label' => $label, 'type' => $type]);
@@ -203,8 +203,8 @@ class DBconnector {
     // }
     
     // public static function insertQCM($uuid, $nomQCM, $nombreQuestion,$listeQuestion){
-    //     $sql = 'SELECT max(id,0) as id FROM QCM';
-    //     $stmt = self::getInstance()->query($sql);
+    //     $nextId = 'SELECT max(id,0) as id FROM QCM';
+    //     $stmt = self::getInstance()->query($nextId);
     //     $id = $stmt->fetch()['id'] + 1;
     //     $stmt = self::getInstance()->prepare('INSERT INTO QCM (id, uuid, nomQCM, nombreQuestion) VALUES (:id, :uuid, :nomQCM, :nombreQuestion)');
     //     $stmt->execute(['id' => $id, 'uuid' => $uuid, 'nomQCM' => $nomQCM, 'nombreQuestion' => $nombreQuestion]);
