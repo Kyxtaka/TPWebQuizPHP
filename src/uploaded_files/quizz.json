@@ -1,0 +1,96 @@
+[
+    {
+        "uuid" : "d88e834518a0ff2777730e7538779883626b59b150b34f8a67c3c91b1626a809",
+        "label" : "quizz1",
+        "questions": [
+            {
+                "uuid": "52a9e31b68ef113644acbba2b8e024ad7b3901c42a021fbff5efdd1226d2ffc1",
+                "label": "Le label de la question 1.",
+                "type": "radio",
+                "choices": [
+                    "Answer 1",
+                    "Answer 2",
+                    "Answer 3"
+                ],
+                "correct": "Answer 2"
+            },
+            {
+                "uuid": "07a065d3d40a8d6c473d373b7e29ecc011ca9ccbffed7512eb4330a4b3951e84",
+                "label": "Le label de la question 2.",
+                "type": "radio",
+                "choices": [
+                    "Answer 1",
+                    "Answer 2",
+                    "Answer 3"
+                ],
+                "correct": "Answer 3"
+            },
+            {
+                "uuid": "420fa5689be1505ad04f8c5ef2271b233de6c9696bb342784b5ef58ee510c138",
+                "label": "Le label de la question 3.",
+                "type": "checkbox",
+                "choices": [
+                    "Answer 1",
+                    "Answer 2",
+                    "Answer 3"
+                ],
+                "correct": "Answer 3"
+            }
+        ]
+    },
+    {
+        "uuid" : "44d710bc448deb179f5f817858bf4aea3255a5c6056a2488fd7815f78d9ed41d",
+        "label" : "quizz2",
+        "questions": [
+            {
+                "uuid": "e8652d09582f15a156c49c0f4c71c56770d3a1d0be714ca8ad7e0c89e4a14d59",
+                "label": "Le label de la question 4.",
+                "type": "text",
+                "choices": [],
+                "correct": "Test"
+            },
+            {
+                "uuid": "f4845cbb4da97e5fe22c3efcd174718d964c013a392df8737d1067d557202e71",
+                "label": "Combien de pays existe-t-il ?",
+                "type": "text",
+                "choices": [],
+                "correct": "197"
+            },
+            {
+                "uuid": "80712fbfff86d430773f7e211e0db9bde135b0b04ce3872d2ca7e48aed7aebd2",
+                "label": "Combien de pattes poss\u00e8de un chat ?",
+                "type": "text",
+                "choices": [],
+                "correct": "4"
+            }
+        ]
+    },
+    {
+        "uuid" : "7e21ffeb8ea1a89330787d660c9d774cf1cead9155a3621340e4696031c77f10",
+        "label" : "quizz3",
+        "questions": [
+            {
+                "uuid": "45f75b448368ad6d59cc3829ecff4ba533782caf147c4a87cf2d2b343443d184",
+                "label": "Question sup1",
+                "type": "radio",
+                "choices": [
+                    "Answer 1",
+                    "Answer 2",
+                    "Answer 3"
+                ],
+                "correct": "Answer 2"
+            },
+            {
+                "uuid": "c8533626bf5c8a7e5ea70a0d8b11687bb31fcce141bffedda64e7f015cbb9301",
+                "label": "Question Sup2",
+                "type": "radio",
+                "choices": [
+                    "Answer 1",
+                    "Answer 2",
+                    "Answer 3"
+                ],
+                "correct": "Answer 3"
+            }
+        ]
+    }
+]

@@ -1,0 +1,86 @@
+h1{
+    color: red;
+    font-size: 50px;
+    text-align: center;
+}
+
+p{
+    color: blue;
+    font-size: 30px;
+    text-align: center;
+}
+
+div{
+    align-items: center;
+}
+
+h2{
+    color: green;
+    font-size: 40px;
+    text-align: center;
+}
+
+form{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+       
+}
+label{
+    display: block;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    font-size: 30px;
+}
+input{
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 15px;
+}
+
+button{
+    border-radius: 15px;
+}
+
+form>button{
+    background-color: green;
+    color: white;
+    width: 10%;
+    cursor: pointer;
+}
+
+#hide{
+    background-color: aquamarine;
+    color: black;
+}
+
+.button-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+#startButton{
+    background-color: aquamarine;
+    color: black;
+    width: 15%;
+    height: 40px;
+    cursor: pointer;
+    margin: 50px;
+}
+
+.question{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.question :first-child{
+    width: 100%;
+}
+
+.question label{
+    width: 30%;
+}
