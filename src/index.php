@@ -170,14 +170,16 @@ if (!empty($_FILES['file']) && $_FILE['file']['error'] == UPLOAD_ERR_OK) {
 </header>
 <main>
     <h1>Bienvenu dans le Quizzer</h1>
-    <p>Tester vos connassance</p>
+    <p>Tester vos connaissances</p>
     <?php
-        if (UserTools::isLogged()) {  
-            echo '=====================================================================================================<br>'; 
-            echo "logged as" . ' ' . $_SESSION['user']['username'] . '<br>';
-            echo "debug user: ";
-            $debug = var_dump($_SESSION['user']);
-            echo '=====================================================================================================<br><br>';
+        if (UserTools::isLogged()) { 
+            $html =  "<center><h3> Bienvenu " . $_SESSION['user']['username'] . "</h3></center>";
+            echo $html;
+            // echo '=====================================================================================================<br>'; 
+            // echo "logged as" . ' ' . $_SESSION['user']['username'] . '<br>';
+            // echo "debug user: ";
+            // $debug = var_dump($_SESSION['user']);
+            // echo '=====================================================================================================<br><br>';
         }
         if (isset($_GET['action'])) {
             switch ($_GET['action']) {

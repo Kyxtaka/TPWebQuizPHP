@@ -43,7 +43,7 @@ class DBconnector {
     }
 
     public static function getUSER($username){
-        $stmt = self::getInstance()->prepare('SELECT * FROM NATURAL JOIN USER_ROLES NATURAL JOIN ROLES WHERE username = :username');
+        $stmt = self::getInstance()->prepare('SELECT * FROM USERS NATURAL JOIN USER_ROLES NATURAL JOIN ROLES WHERE username = :username');
         $stmt->execute(['username' => $username]);
         return $stmt->fetch();
     }
@@ -54,28 +54,23 @@ class DBconnector {
         $id = $stmt->fetch()['UID'] + 1;
         $stmt = self::getInstance()->prepare('INSERT INTO USERS (userId, username, motDePasse) VALUES (:userId, :username, :motDePasse)');
         $stmt->execute(['userId' => $id, 'username' => $username, 'motDePasse' => $motDePasse]);
+        self::insertUSER_ROLES($id, 2);
     }
-    
-    // public static function insertROLES($nomRole){
-    //     $nextId = 'SELECT max(roleId,0) as id FROM ROLES';
-    //     $stmt = self::getInstance()->query($nextId);
-    //     $id = $stmt->fetch()['id'] + 1;
-    //     $stmt = self::getInstance()->prepare('INSERT INTO ROLES (roleId, nomRole) VALUES (:id, :nomRole)');
-    //     $stmt->execute(['id' => $id, 'nomRole' => $nomRole]);
-    // }
     
     public static function insertUSER_ROLES($id_user, $idRole){
         $stmt = self::getInstance()->prepare('INSERT INTO USER_ROLES (userId, roleId) VALUES (:id, :idRole)');
-        $stmt->execute(['userId' => $id_user, 'idRole' => $idRole]);
+        $stmt->execute(['id' => $id_user, 'idRole' => $idRole]);
     }
 
-    public static function registerUser($username, $hashedPassword, $role){
+    public static function getROLE($nomRole){
+        $stmt = self::getInstance()->prepare('SELECT * FROM ROLES WHERE nomRole = :nomRole');
+        $stmt->execute(['nomRole' => $nomRole]);
+        return $stmt->fetch();
+    }
+
+    public static function registerUser($username, $hashedPassword, $roleId){
         try {
             self::insertUSER($username, $hashedPassword);
-            $user = self::getUSER($username);
-            $id_user = $user['userId'];
-            $id_role = self::getROLE($role);
-            self::insertUSER_ROLES($id_user, $id_role);
             return true;
         } catch (PDOException $e) {
             return false;
@@ -126,6 +121,16 @@ class DBconnector {
 
 
     // Partie abandonnee par soucie de temps
+
+
+     
+    // public static function insertROLES($nomRole){
+    //     $nextId = 'SELECT max(roleId,0) as id FROM ROLES';
+    //     $stmt = self::getInstance()->query($nextId);
+    //     $id = $stmt->fetch()['id'] + 1;
+    //     $stmt = self::getInstance()->prepare('INSERT INTO ROLES (roleId, nomRole) VALUES (:id, :nomRole)');
+    //     $stmt->execute(['id' => $id, 'nomRole' => $nomRole]);
+    // }
 
     // public static function getQCM(){
     //     $stmt = self::getInstance()->query('SELECT * FROM QCM');
