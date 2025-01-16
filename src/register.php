@@ -29,6 +29,7 @@ if (!empty($_POST['username']) && !empty($_POST['pwd']) && !empty($_POST['confir
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/pages/login.css">
     <link rel="stylesheet" href="css/index.css">
     <script src="js/W3IncludeHTML.js"></script>
     <title>Register</title>
