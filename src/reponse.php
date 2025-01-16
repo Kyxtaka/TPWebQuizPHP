@@ -26,10 +26,7 @@ if (!isset($_SESSION['questions'])) {
     <nav>
         <ul>
             <li><a href="index.php">Accueil</a></li>
-            <li><a href="index.php">A propos</a></li>
             <?php if (isset($_SESSION['user'])): ?>
-                <li><a href="index.php">Quiz</a></li>
-                <li><a href="index.php">Résultats</a></li>
                 <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'admin'):?>
                     <li><a href="?action=import">Import</a></li>
                 <?php endif; ?>
@@ -97,7 +94,6 @@ if (!isset($_SESSION['questions'])) {
     echo sprintf('<h2>Votre score est de : %d / %d</h2>', $score, count($_GET)-1);
     if (UserTools::isLogged()) {
         try {
-            echo 'logged';
             DBconnector::insertTENTATIVE($_GET['quizz'], UserTools::getUserId(), $score, DBconnector::getTentativeNumber($_GET['quizz'], UserTools::getUserId())+1);
         } catch (Exception $e) {
             echo $e->getMessage();

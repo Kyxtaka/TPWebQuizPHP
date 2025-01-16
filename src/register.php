@@ -39,10 +39,7 @@ if (!empty($_POST['username']) && !empty($_POST['pwd']) && !empty($_POST['confir
         <nav>
             <ul>
                 <li><a href="index.php">Accueil</a></li>
-                <li><a href="index.php">A propos</a></li>
                 <?php if (isset($_SESSION['user'])): ?>
-                    <li><a href="index.php">Quiz</a></li>
-                    <li><a href="index.php">Résultats</a></li>
                     <li><a href="index.php">Déconnexion</a></li>
                 <?php else: ?>
                     <li id="loginButton"><a href="login.php">Login</a></li>

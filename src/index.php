@@ -152,10 +152,7 @@ if (!empty($_FILES['file']) && $_FILE['file']['error'] == UPLOAD_ERR_OK) {
     <nav>
         <ul>
             <li><a href="index.php">Accueil</a></li>
-            <li><a href="index.php">A propos</a></li>
             <?php if (isset($_SESSION['user'])): ?>
-                <li><a href="index.php">Quiz</a></li>
-                <li><a href="index.php">Résultats</a></li>
                 <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'admin'):?>
                     <li><a href="?action=import">Import</a></li>
                 <?php endif; ?>
