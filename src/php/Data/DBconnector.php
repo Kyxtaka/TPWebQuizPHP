@@ -29,96 +29,73 @@ class DBconnector {
         }
     }
 
-    public static function getInstance() {
-        if (self::$instance == null) {
-            new DBconnector();
-        }
-        return self::$instance;
-    }
-
-    public static function checkDB($username, $hashedPassword){
-        $stmt = self::getInstance()->prepare('SELECT * FROM USERS NATURAL JOIN USER_ROLES NATURAL JOIN ROLES WHERE username = :username AND motDePasse = :motDePasse ');
-        $stmt->execute(['username' => $username, 'motDePasse' => $hashedPassword]);
-        return $stmt->fetch();
-    }
-
-    public static function getUSER($username){
-        $stmt = self::getInstance()->prepare('SELECT * FROM USERS NATURAL JOIN USER_ROLES NATURAL JOIN ROLES WHERE username = :username');
-        $stmt->execute(['username' => $username]);
-        return $stmt->fetch();
-    }
-
-    public static function insertUSER($username, $motDePasse){
-        $nextId = 'SELECT count(*) as UID FROM USERS';
-        $stmt = self::getInstance()->query($nextId);
-        $id = $stmt->fetch()['UID'] + 1;
-        $stmt = self::getInstance()->prepare('INSERT INTO USERS (userId, username, motDePasse) VALUES (:userId, :username, :motDePasse)');
-        $stmt->execute(['userId' => $id, 'username' => $username, 'motDePasse' => $motDePasse]);
-        self::insertUSER_ROLES($id, 2);
-    }
-    
-    public static function insertUSER_ROLES($id_user, $idRole){
-        $stmt = self::getInstance()->prepare('INSERT INTO USER_ROLES (userId, roleId) VALUES (:id, :idRole)');
-        $stmt->execute(['id' => $id_user, 'idRole' => $idRole]);
-    }
-
-    public static function getROLE($nomRole){
-        $stmt = self::getInstance()->prepare('SELECT * FROM ROLES WHERE nomRole = :nomRole');
-        $stmt->execute(['nomRole' => $nomRole]);
-        return $stmt->fetch();
-    }
-
-    public static function registerUser($username, $hashedPassword, $roleId){
-        try {
-            self::insertUSER($username, $hashedPassword);
-            return true;
-        } catch (PDOException $e) {
-            return false;
-        }
-        
-    } 
-
+    /**
+     * Récupère tous les rôles de la base de données.
+     * @return array Un tableau contenant tous les rôles.
+     */
     public static function getAllRoles() {
         $stmt = self::getInstance()->query('SELECT * FROM ROLES');
-        $res =  $stmt->fetchAll();
+        $res = $stmt->fetchAll();
         return $res;
     }
 
-    public static function getTentativeNumber($id_user, $qcmUID){
-        $stmt = self::getInstance()->prepare('SELECT count(*) as number FROM QCMTENTATIVE  WHERE userId = :id_user AND qcmUID = :qcmUID GROUP BY userId')->;
+    /**
+     * Récupère le nombre de tentatives pour un utilisateur et un QCM spécifique.
+     * @param int $id_user L'ID de l'utilisateur.
+     * @param string $qcmUID L'UID du QCM.
+     * @return int Le nombre de tentatives.
+     */
+    public static function getTentativeNumber($id_user, $qcmUID) {
+        $stmt = self::getInstance()->prepare('SELECT count(*) as number FROM QCMTENTATIVE WHERE userId = :id_user AND qcmUID = :qcmUID GROUP BY userId');
         $stmt->execute(['id_user' => $id_user, 'qcmUID' => $qcmUID]);
         return $stmt->fetch()['number'];
     }
 
-    public static function insertTENTATIVE ($qcmUID, $id_user, $score, $tentativeNumber){
+    /**
+     * Insère une nouvelle tentative pour un utilisateur et un QCM spécifique.
+     * @param string $qcmUID L'UID du QCM.
+     * @param int $id_user L'ID de l'utilisateur.
+     * @param float $score Le score de la tentative.
+     * @param int $tentativeNumber Le numéro de la tentative.
+     */
+    public static function insertTENTATIVE($qcmUID, $id_user, $score, $tentativeNumber) {
         $stmt = self::getInstance()->prepare('INSERT INTO QCMTENTATIVE (qcmUID, userId, score, num) VALUES (:qcmUID, :id_user, :score, :tentativeNumber)');
         $stmt->execute(['qcmUID' => $qcmUID, 'id_user' => $id_user, 'score' => $score, 'tentativeNumber' => $tentativeNumber]);
     }
-    
 
-    //UPDATE
-    public static function updateUSER($id, $username, $motDePasse){
+    /**
+     * Met à jour les informations d'un utilisateur dans la base de données.
+     * @param int $id L'ID de l'utilisateur.
+     * @param string $username Le nom d'utilisateur.
+     * @param string $motDePasse Le mot de passe.
+     */
+    public static function updateUSER($id, $username, $motDePasse) {
         $stmt = self::getInstance()->prepare('UPDATE USER SET username = :username, motDePasse = :motDePasse WHERE id = :id');
         $stmt->execute(['id' => $id, 'username' => $username, 'motDePasse' => $motDePasse]);
     }
-    
-    public static function updateROLES($id, $nomRole){
+
+    /**
+     * Met à jour les informations d'un rôle dans la base de données.
+     * @param int $id L'ID de l'utilisateur.
+     * @param string $nomRole Le nom du rôle.
+     */
+    public static function updateROLES($id, $nomRole) {
         $stmt = self::getInstance()->prepare('UPDATE USER_ROLES SET roleId = :nomRole WHERE userId = :id');
         $stmt->execute(['id' => $id, 'nomRole' => $nomRole]);
     }
 
-    public static function getTentatives($qcmUID, $userId){
+    /**
+     * Récupère toutes les tentatives pour un utilisateur et un QCM spécifique.
+     * @param string $qcmUID L'UID du QCM.
+     * @param int $userId L'ID de l'utilisateur.
+     * @return array Un tableau contenant toutes les tentatives.
+     */
+    public static function getTentatives($qcmUID, $userId) {
         $stmt = self::getInstance()->prepare('SELECT * FROM QCMTENTATIVE WHERE qcmUID = :qcmUID AND userId = :userId');
         $stmt->execute(['qcmUID' => $qcmUID, 'userId' => $userId]);
         return $stmt->fetchAll();
     }
     
-
-
-
-
-
-
 
     // Partie abandonnee par soucie de temps
 
