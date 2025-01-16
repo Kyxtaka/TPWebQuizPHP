@@ -1,7 +1,10 @@
 <?php
 require_once 'php/autoloader.php';
 Autoloader::register();
-use Php\Component\Question\Question;
+use Component\Question\Quizz;
+use Component\Question\Question;
+use Tools\User\UserTools;
+use Data\DBconnector;
 session_start();
 if (!isset($_SESSION['questions'])) {
     header('Location: index.php?error=1');
@@ -53,13 +56,13 @@ if (!isset($_SESSION['questions'])) {
         ?>
     </ul>
     </div>
-    <div class="answer-container" id="qcm-user">
+    <div class="answer-container" id="qcm-result">
     <h2>Voici vos réponses: </h2>
     <ul>
         <?php
         foreach ($_GET as $key => $value) {
             foreach ($_SESSION['questions'] as $question) {
-                if ($question->getUuid() == $key) {
+                if ( $question->getUuid() == $key) {
                     echo '<li>' . $question->getLabel() . ' : ' . $value . '</li>';
                 }
             }
@@ -73,5 +76,40 @@ if (!isset($_SESSION['questions'])) {
         echo '<pre>' . print_r($_SESSION['questions']) . '</pre>';
     }
     ?>
+    </div>
+    <div class="answer-container" id="qcm-score">
+    <?php
+    $score = 0;
+    foreach ($_SESSION['quizzs'] as $currentQuizz) {
+        if ($currentQuizz->getUuid() == $_GET['quizz']) {
+            $quizz = $quizz;
+        }
+    }
+    foreach ($_GET as $key => $value) {
+        foreach ($_SESSION['questions'] as $question) {
+            if ($question->getUuid() == $key) {
+                if ($question->getAnswer() == $value) {
+                    $score++;
+                }
+            }
+        }
+    }
+    echo sprintf('<h2>Votre score est de : %d / %d</h2>', $score, count($_GET)-1);
+    if (UserTools::isLogged()) {
+        try {
+            echo 'logged';
+            DBconnector::insertTENTATIVE($_GET['quizz'], UserTools::getUserId(), $score, DBconnector::getTentativeNumber($_GET['quizz'], UserTools::getUserId())+1);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+        $allTentatives = DBconnector::getTentatives($_GET['quizz'], UserTools::getUserId());
+        foreach ($allTentatives as $tentative) {
+            echo sprintf('<p>Tentative n°%d : %d / %d</p>', $tentative['numeroTentative'], $tentative['score'], count($_GET)-1);
+        }
+    }
+
+
+    ?>
+    </div>
 </body>
 </html>

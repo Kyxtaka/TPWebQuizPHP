@@ -14,7 +14,7 @@ class UserTools {
     public static function login($username, $password) {
         $hash = hash('sha256', $password);
         if ($result = self::checkDB($username, $hash)) {
-            $_SESSION['user'] = array('username' => $username, 'token' => self::generateToken(), 'role' => $result['nomRole']);
+            $_SESSION['user'] = array('userId' => $result['userId'] , 'username' => $username, 'token' => self::generateToken(), 'role' => $result['nomRole']);
             return true;
         }
         return false;
@@ -46,7 +46,7 @@ class UserTools {
     }
 
     public static function logout() {
-        // unset($_SESSION['user']);
+        unset($_SESSION['user']);
     }
 
     public static function isLogged() {
@@ -62,6 +62,14 @@ class UserTools {
 
     public static function getUserToken() {
         return $_SESSION['user']['token'];
+    }
+
+    public static function getUserRole() {
+        return $_SESSION['user']['role'];
+    }
+
+    public static function getUserId() {
+        return $_SESSION['user']['userId'];
     }
 }
 ?>
