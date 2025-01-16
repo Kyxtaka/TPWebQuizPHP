@@ -93,10 +93,8 @@ if (!empty($_FILES['file']) && $_FILE['file']['error'] == UPLOAD_ERR_OK) {
             } else if ($_POST['action'] == 'quizzs') {
                 echo 'action quizzs';
                 $data = JSONprovider::loadJSON($dest_path);
+                // var_dump($data);
                 $quizzs = JSONprovider::loadQuizzs($data, true);
-                // foreach ($data as $qcm){
-                //     insertQCM($qcm['uuid'], $qcm['label'], count($qcm['questions']), $qcm['questions']);
-                // }
                 JSONprovider::saveQuizzJSON();
                 JSONprovider::saveJSON();
                 echo 'Quizz imported';
@@ -153,7 +151,7 @@ if (!empty($_FILES['file']) && $_FILE['file']['error'] == UPLOAD_ERR_OK) {
         <ul>
             <li><a href="index.php">Accueil</a></li>
             <?php if (isset($_SESSION['user'])): ?>
-                <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'admin'):?>
+                <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'ADMIN'):?>
                     <li><a href="?action=import">Import</a></li>
                 <?php endif; ?>
                 <li><a href="logout.php">Déconnexion</a></li>

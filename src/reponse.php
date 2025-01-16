@@ -27,7 +27,7 @@ if (!isset($_SESSION['questions'])) {
         <ul>
             <li><a href="index.php">Accueil</a></li>
             <?php if (isset($_SESSION['user'])): ?>
-                <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'admin'):?>
+                <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'ADMIN'):?>
                     <li><a href="?action=import">Import</a></li>
                 <?php endif; ?>
                 <li><a href="logout.php">Déconnexion</a></li>
