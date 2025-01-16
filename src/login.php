@@ -3,7 +3,7 @@ session_start();
 require_once 'php/autoloader.php';
 Autoloader::register();
 
-use Tools\User\UserTools;
+use Tools\UserTools;
 if (!empty($_POST['login']) && !empty($_POST['password'])) {
     $login = UserTools::login($_POST['login'], $_POST['password']);
     if ($login == true) {

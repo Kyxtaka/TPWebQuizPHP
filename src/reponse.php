@@ -3,7 +3,7 @@ require_once 'php/autoloader.php';
 Autoloader::register();
 use Component\Question\Quizz;
 use Component\Question\Question;
-use Tools\User\UserTools;
+use Tools\UserTools;
 use Data\DBconnector;
 session_start();
 if (!isset($_SESSION['questions'])) {

@@ -7,8 +7,7 @@ use Components\Question\QuestionCheckBox;
 use Components\Question\QuestionRadioBox;
 use Components\Question\QuestionTextField;
 use Components\Question\Quizz;
-use Components\Tools\User\UserTools;
-use Tools\User\UserTools as UserUserTools;
+use Tools\User\UserTools;
 use \PDOException;
 use \PDO;
 

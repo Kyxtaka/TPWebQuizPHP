@@ -1,7 +1,7 @@
 <?php
 require_once 'php/autoloader.php';
 Autoloader::register();
-use Tools\User\UserTools;
+use Tools\UserTools;
 $disconnect = UserTools::logout();
 session_destroy();
 session_start();
