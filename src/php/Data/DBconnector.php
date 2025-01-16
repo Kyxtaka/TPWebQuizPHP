@@ -85,7 +85,7 @@ class DBconnector {
     }
 
     public static function getTentativeNumber($id_user, $qcmUID){
-        $stmt = self::getInstance()->prepare('SELECT count(*) as number FROM QCMTENTATIVE WHERE userId = :id_user AND qcmUID = :qcmUID');
+        $stmt = self::getInstance()->prepare('SELECT count(*) as number FROM QCMTENTATIVE  WHERE userId = :id_user AND qcmUID = :qcmUID GROUP BY userId, qcmUID');
         $stmt->execute(['id_user' => $id_user, 'qcmUID' => $qcmUID]);
         return $stmt->fetch()['number'];
     }

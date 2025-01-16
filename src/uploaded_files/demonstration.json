@@ -1,0 +1,50 @@
+{
+    "uuid" : "7e21ffeb8ea1a89330787d660c9d774hiocead9155aer21340e4696031c77f10",
+    "label" : "Quiiz de demonstration",
+    "questions": [
+        {
+            "uuid": "45f75b448368ad6d59cc3815siff4ba533782caf147c4a87cf2d2b343443d184",
+            "label": "Quel est le nom de la capitale de la France ?",
+            "type": "radio",
+            "choices": [
+                "Paris",
+                "Londres",
+                "Madrid"
+            ],
+            "correct": "Paris"
+        },
+        {
+            "uuid": "c8533626bf5c8a7e5easa45d8b11687bb31fcce141bffedda64e7f015cbb9301",
+            "label": "Dans quelle ville se trouve la tour Eiffel ?",
+            "type": "radio",
+            "choices": [
+                "Dans le néant",
+                "Paris",
+                "Dans le state de France"
+            ],
+            "correct": "Paris"
+        },
+        {
+            "uuid": "c8533626bf5c8a7e5easqhik8b11687bb31fcce141bffedda64e7f015cbb9301",
+            "label": "Quel nouveau type de radar a été mis en place en France pour voler notre tune?",
+            "type": "radio",
+            "choices": [
+                "Radar de la honte",
+                "Radar sonore",
+                "Radar de riche"
+            ],
+            "correct": "Radar sonore"
+        },
+        {
+            "uuid": "c8533626bf5c8a7e5easqhik8b11687bb31fcce141hiiedda64e7f015cbb9301",
+            "label": "Quelle est le nom du président de la France actuelle ?",
+            "type": "radio",
+            "choices": [
+                "Macron",
+                "Sarckozie",
+                "Hollande"
+            ],
+            "correct": "Radar sonore"
+        }
+    ]
+}

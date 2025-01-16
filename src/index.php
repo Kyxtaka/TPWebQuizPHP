@@ -93,11 +93,11 @@ if (!empty($_FILES['file']) && $_FILE['file']['error'] == UPLOAD_ERR_OK) {
             } else if ($_POST['action'] == 'quizzs') {
                 echo 'action quizzs';
                 $data = JSONprovider::loadJSON($dest_path);
-                //$quizzs = JSONprovider::loadQuizzs($data, true);
-                foreach ($data as $qcm){
-                    insertQCM($qcm['uuid'], $qcm['label'], count($qcm['questions']), $qcm['questions']);
-                }
-                ///JSONprovider::saveQuizzJSON();
+                $quizzs = JSONprovider::loadQuizzs($data, true);
+                // foreach ($data as $qcm){
+                //     insertQCM($qcm['uuid'], $qcm['label'], count($qcm['questions']), $qcm['questions']);
+                // }
+                JSONprovider::saveQuizzJSON();
                 JSONprovider::saveJSON();
                 echo 'Quizz imported';
             }
