@@ -35,6 +35,7 @@ class Quizz {
     public function render($action, $method = "POST"): string {
         $html = '<h2>Quizz: '. $this->label . '</h2>';
         $html .= '<form action=' . $action . ' method="' . $method . '">';
+        $html .= '<input type="hidden" name="quizz" value="' . $this->uuid . '">';
         $inc = 0;
         foreach ($this->questions as $question) {
             $html .= '<div>';

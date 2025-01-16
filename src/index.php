@@ -1,6 +1,7 @@
 <?php
 
 require_once 'php/autoloader.php';
+// require_once "./php/Data/DBconnector.php";
 Autoloader::register();
 
 use Components\Form\Checkbox;
@@ -14,11 +15,13 @@ use Components\Question\Question;
 use Data\JSONprovider;
 use Components\Question\Quizz;
 use Components\Form\QuestionForm;
+use Data\DBConnector;
 
 session_start();
-echo '<pre>';
-var_dump($_SESSION['quizzs']);
-echo '</pre>';
+// echo hash('sha256', 'ADMIN');
+// echo '<pre>';
+// var_dump($_SESSION['quizzs']);
+// echo '</pre>';
 // lecture du fichier ou son entreposer toutes les questions et quizzs
 JSONprovider::clearSession();
 JSONprovider::loadQuestions(JSONprovider::loadJSON('data/json/global/questions.json'), true);
@@ -90,8 +93,9 @@ if (!empty($_FILES['file']) && $_FILE['file']['error'] == UPLOAD_ERR_OK) {
             } else if ($_POST['action'] == 'quizzs') {
                 echo 'action quizzs';
                 $data = JSONprovider::loadJSON($dest_path);
+                // var_dump($data);
                 $quizzs = JSONprovider::loadQuizzs($data, true);
-                // JSONprovider::saveQuizzJSON();
+                JSONprovider::saveQuizzJSON();
                 JSONprovider::saveJSON();
                 echo 'Quizz imported';
             }
@@ -146,11 +150,8 @@ if (!empty($_FILES['file']) && $_FILE['file']['error'] == UPLOAD_ERR_OK) {
     <nav>
         <ul>
             <li><a href="index.php">Accueil</a></li>
-            <li><a href="index.php">A propos</a></li>
             <?php if (isset($_SESSION['user'])): ?>
-                <li><a href="index.php">Quiz</a></li>
-                <li><a href="index.php">Résultats</a></li>
-                <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'admin'):?>
+                <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'ADMIN'):?>
                     <li><a href="?action=import">Import</a></li>
                 <?php endif; ?>
                 <li><a href="logout.php">Déconnexion</a></li>
@@ -164,14 +165,16 @@ if (!empty($_FILES['file']) && $_FILE['file']['error'] == UPLOAD_ERR_OK) {
 </header>
 <main>
     <h1>Bienvenu dans le Quizzer</h1>
-    <p>Tester vos connassance</p>
+    <p>Tester vos connaissances</p>
     <?php
-        if (UserTools::isLogged()) {  
-            echo '=====================================================================================================<br>'; 
-            echo "logged as" . ' ' . $_SESSION['user']['username'] . '<br>';
-            echo "debug user: ";
-            $debug = var_dump($_SESSION['user']);
-            echo '=====================================================================================================<br><br>';
+        if (UserTools::isLogged()) { 
+            $html =  "<center><h3> Bienvenu " . $_SESSION['user']['username'] . "</h3></center>";
+            echo $html;
+            // echo '=====================================================================================================<br>'; 
+            // echo "logged as" . ' ' . $_SESSION['user']['username'] . '<br>';
+            // echo "debug user: ";
+            // $debug = var_dump($_SESSION['user']);
+            // echo '=====================================================================================================<br><br>';
         }
         if (isset($_GET['action'])) {
             switch ($_GET['action']) {

@@ -22,7 +22,6 @@ if (!empty($_POST['login']) && !empty($_POST['password'])) {
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/pages/login.css">
     <script src="js/W3IncludeHTML.js"></script>
     <title>Login</title>
@@ -32,10 +31,7 @@ if (!empty($_POST['login']) && !empty($_POST['password'])) {
         <nav>
             <ul>
                 <li><a href="index.php">Accueil</a></li>
-                <li><a href="index.php">A propos</a></li>
                 <?php if (isset($_SESSION['user'])): ?>
-                    <li><a href="index.php">Quiz</a></li>
-                    <li><a href="index.php">Résultats</a></li>
                     <li><a href="index.php">Déconnexion</a></li>
                 <?php else: ?>
                     <li id="loginButton"><a href="login.php">Login</a></li>
@@ -51,7 +47,7 @@ if (!empty($_POST['login']) && !empty($_POST['password'])) {
         <input type="text" name="login" id="login">
         <label for="password">Password</label>
         <input type="password" name="password" id="password">
-        <input type="submit" value="Login">
+        <input id="submit" type="submit" value="Login">
         <?php
         if (!(empty($_GET["error"]))) {
             $message = '<p id="error">%s</p>';
