@@ -3,7 +3,7 @@ session_start();
 require_once 'php/autoloader.php';
 Autoloader::register();
 use Data\DBconnector;
-use Tools\User\UserTools;
+use Tools\UserTools;
 if (!empty($_POST['username']) && !empty($_POST['pwd']) && !empty($_POST['confirm-pwd'])) {
     if ($_POST['pwd'] !== $_POST['confirm-pwd']) {
         header('Location: register.php?error=3');

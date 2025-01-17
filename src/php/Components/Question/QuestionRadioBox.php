@@ -6,6 +6,12 @@ use Components\Form\Radiobox;
 use \Exception;
 
 class QuestionRadioBox extends Question {
+
+    /**
+     * Constructeur de la classe QuestionRadioBox
+     * @param string $uuid L'identifiant unique de la question.
+     * @param string $label Le label de la question.
+     */
     public function render() {
         $html = '<div class="question">';
         $html .= '<label>' . $this->label . '</label>';
