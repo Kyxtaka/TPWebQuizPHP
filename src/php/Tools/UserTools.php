@@ -6,6 +6,9 @@ session_start();
 /** 
  * Librairie de gestion des utilisateurs 
  * Auteur : Nathan Randriantsoa
+ * Derniere MAJ : 17/01/2025
+ * Utilisation : TP / TD / SAE / Projets personnels 
+ * Doit etre utilisee avec la classe DBconnector
  */
 class UserTools {
 
